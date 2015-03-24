@@ -1,0 +1,2 @@
+
+-DCATKIN_DEVEL_PREFIX=/home/jake/amrproj/devel -DCMAKE_INSTALL_PREFIX=/home/jake/amrproj/install -G Unix Makefiles

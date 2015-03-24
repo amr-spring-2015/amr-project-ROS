@@ -1,0 +1,6 @@
+/home/jake/amrproj/build/CMakeFiles/clean_test_results.dir
+/home/jake/amrproj/build/CMakeFiles/doxygen.dir
+/home/jake/amrproj/build/gtest/CMakeFiles/gtest.dir
+/home/jake/amrproj/build/gtest/CMakeFiles/gtest_main.dir
+/home/jake/amrproj/build/CMakeFiles/run_tests.dir
+/home/jake/amrproj/build/CMakeFiles/tests.dir
