@@ -63,19 +63,20 @@ def mainloop():
 		rospy.Subscriber('/chatter', Int16, getCmd)
 		while robotCmd != 1 or robotCmd != 90 or robotCmd != -90 or robotCmd != 180:	#Wait for valid command from matlab
 			rospy.Subscriber('/chatter', Int16, getCmd)
+			pub.publish("Y")
 		pub.publish("N")								#got valid command, publish i'm not there yet
-		if robotCmd = 1:								#go forward 1 unit
+		if robotCmd == 1:								#go forward 1 unit
 			if robotCommand("0",dist):						#found an object
 				pub.publish("F")						#tell matlab we found it
 				break								#break out of loop (program is complete)
 			else: pub.publish("Y")							#otherwise, tell matlab we are done
-		else if robotCmd = 90:								#turn left 90
+		elif robotCmd == 90:								#turn left 90
 			robotCommand("1","0")
 			pub.publish("Y")							#tell matlab we are done
-		else if robotCmd = -90:								#turn right 90
+		elif robotCmd == -90:								#turn right 90
 			robotCommand("2","0")	
 			pub.publish("Y")							#tell matlab we are done
-		else if robotCmd = 180:								#turn 180
+		elif robotCmd == 180:								#turn 180
 			robotCommand("1","0")
 			robotCommand("1","0")
 			pub.publish("Y")							#tell matlab we are done
