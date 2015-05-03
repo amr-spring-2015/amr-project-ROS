@@ -52,6 +52,7 @@ def robotCommand(direction, distance):
 	cnt = ser.inWaiting()
 	while cnt < 5:
 		cnt = ser.inWaiting()
+		pub.publish("N")
 	s = ser.read(5)		
 	L = []		
         for i in s:
@@ -75,8 +76,7 @@ def mainloop():
 		while now.secs != later: now=rospy.get_rostime() 
 		if robotCmd == 1:								#go forward 1 unit
 			if robotCommand("0",dist):						#found an object
-				pub.publish("F")						#tell matlab we found it
-				break								#break out of loop (program is complete)
+				while not rospy.is_shutdown(): pub.publish("F")			#tell matlab we found it
 			else: pub.publish("Y")							#otherwise, tell matlab we are done
 		elif robotCmd == 90:								#turn left 90
 			robotCommand("2","0")

@@ -28,7 +28,8 @@ i = 0
 
 def getCmd(Cmd):
 	global robotCmd
-	robotCmd = Cmd
+	robotCmd = Cmd.data
+	#print robotCmd
 
 def robotCommand(direction, distance):
 	#ser.flushInput()
@@ -45,9 +46,9 @@ def robotCommand(direction, distance):
 	#else: ser.write("12,") 						#Yaw control gain for going straight
 	#if direction == "1" or direction == "2": ser.write("60e") 	#initial PWM value for turning
 	#else: ser.write("60e") 						#initial PWM value for going straight
+	time.sleep(6)
 	global i
-	i = i + 1
-	time.sleep(3)
+	if direction == "0": i = i + 1
 	if i == foundStep: return True
 	else: return False
 
@@ -67,24 +68,33 @@ def robotCommand(direction, distance):
 def mainloop():
 	while not rospy.is_shutdown():
 		rospy.Subscriber('/chatter', Int16, getCmd)
-		while robotCmd != 1 or robotCmd != 90 or robotCmd != -90 or robotCmd != 180:	#Wait for valid command from matlab
+		print robotCmd
+		while robotCmd != 1 and robotCmd != 90 and robotCmd != -90 and robotCmd != 180:	#Wait for valid command from matlab
+			pub.publish("Y")			
 			rospy.Subscriber('/chatter', Int16, getCmd)
 		pub.publish("N")								#got valid command, publish i'm not there yet
-		if robotCmd = 1:								#go forward 1 unit
+		print "N"
+		if robotCmd == 1:								#go forward 1 unit
 			if robotCommand("0",dist):						#found an object
 				pub.publish("F")						#tell matlab we found it
+				print "F"
 				break								#break out of loop (program is complete)
-			else: pub.publish("Y")							#otherwise, tell matlab we are done
-		else if robotCmd = 90:								#turn left 90
+			else: 
+				pub.publish("Y")						#otherwise, tell matlab we are done
+				print "Y"
+		elif robotCmd == 90:								#turn left 90
+			robotCommand("2","0")
+			pub.publish("Y")							#tell matlab we are done
+			print "Y"
+		elif robotCmd == -90:								#turn right 90
+			robotCommand("1","0")	
+			pub.publish("Y")							#tell matlab we are done
+			print "Y"
+		elif robotCmd == 180:								#turn 180
+			robotCommand("1","0")
 			robotCommand("1","0")
 			pub.publish("Y")							#tell matlab we are done
-		else if robotCmd = -90:								#turn right 90
-			robotCommand("2","0")	
-			pub.publish("Y")							#tell matlab we are done
-		else if robotCmd = 180:								#turn 180
-			robotCommand("1","0")
-			robotCommand("1","0")
-			pub.publish("Y")							#tell matlab we are done
+			print "Y"
 
 if __name__ == '__main__':
 	mainloop()
