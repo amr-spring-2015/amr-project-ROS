@@ -1,5 +1,4 @@
 % draw_maze(maze)
-% By Jeremy Kubica, Copyright 2003
 %
 % Displays the maze.
 %   label_cells - A Boolean variable indicating whether to label
